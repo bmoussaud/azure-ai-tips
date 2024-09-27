@@ -4,6 +4,7 @@ env:
   RG: my_open_ai_rg
   LOCATION: eastus
   AZURE_SUBSCRIPTION_ID: "dada2713-e440-4d78-89fd-b77025678f5c"
+  YOUR_API_KEY: "2b35a46e63f149adafff17f9b7a3d629"
 
 tasks:
   azure_auth:
@@ -52,3 +53,8 @@ tasks:
       - az cognitiveservices account purge -n MyOpenAIResource -g $RG -l $LOCATION
       - az group delete --name $RG --yes
     silent: false
+  
+  query_curl:
+    cmds:
+      - curl https://$LOCATION.api.cognitive.microsoft.com/openai/deployments/gpt4o/chat/completions?api-version=2024-02-15-preview -H "Content-Type:application/json"  -H "api-key:$YOUR_API_KEY" -d @query1.json
+  

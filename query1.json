@@ -1,0 +1,20 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a helpful assistant, teaching people about AI."
+        },
+        {
+            "role": "user",
+            "content": "Does Azure OpenAI support multiple languages?"
+        },
+        {
+            "role": "assistant",
+            "content": "Yes, Azure OpenAI supports several languages, and can translate between them."
+        },
+        {
+            "role": "user", 
+            "content": "Do other Azure AI Services support translation too?"
+        }
+    ]
+}
