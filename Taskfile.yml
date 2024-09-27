@@ -19,7 +19,7 @@ tasks:
   deploy_open_ai:
     desc: "Deploy Open AI"
     cmds:
-      - az cognitiveservices account create -n MyOpenAIResource -g $RG -l $LOCATION --kind OpenAI --sku s0 --subscription $AZURE_SUBSCRIPTION_ID
+      - az cognitiveservices account create -n MyOpenAIResource -g $RG -l $LOCATION --kind OpenAI --sku s0 --subscription $AZURE_SUBSCRIPTION_ID 
     silent: false
   deploy_gtp4o:
     desc: "Deploy GPT4o"
@@ -31,9 +31,24 @@ tasks:
     cmds:
       - az cognitiveservices account deployment create -n MyOpenAIResource -g $RG --deployment-name dall-e-3 --model-name dall-e-3 --model-version 3.0 --model-format OpenAI --sku-name "Standard" --sku-capacity 1
     silent: false
+  list_deployments:
+    desc: "List deployments"
+    cmds:
+      - az cognitiveservices account deployment list -n MyOpenAIResource -g $RG -o table
+    silent: false
+  deploy_all:
+    desc: "Deploy all"
+    cmds:
+      - task: azure_auth
+      - task: create_resource_group
+      - task: deploy_open_ai
+      - task: deploy_gtp4o
+      - task: deploy_dalle3
+    silent: false
   clean_up:
     desc: "Clean up"
     cmds:
       - az cognitiveservices account delete -n MyOpenAIResource -g $RG
+      - az cognitiveservices account purge -n MyOpenAIResource -g $RG -l $LOCATION
       - az group delete --name $RG --yes
     silent: false
