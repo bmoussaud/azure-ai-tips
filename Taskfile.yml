@@ -1,0 +1,39 @@
+version: '3'
+
+env:
+  RG: my_open_ai_rg
+  LOCATION: eastus
+  AZURE_SUBSCRIPTION_ID: "dada2713-e440-4d78-89fd-b77025678f5c"
+
+tasks:
+  azure_auth:
+    desc: "Authenticate to Azure using Azure CLI"
+    cmds:
+      - az login
+    silent: false
+  create_resource_group:
+    desc: "Create a resource group ${RG} in $LOCATION"
+    cmds:
+      - az group create --name $RG --location $LOCATION
+    silent: false
+  deploy_open_ai:
+    desc: "Deploy Open AI"
+    cmds:
+      - az cognitiveservices account create -n MyOpenAIResource -g $RG -l $LOCATION --kind OpenAI --sku s0 --subscription $AZURE_SUBSCRIPTION_ID
+    silent: false
+  deploy_gtp4o:
+    desc: "Deploy GPT4o"
+    cmds:
+      - az cognitiveservices account deployment create -n MyOpenAIResource -g $RG --deployment-name gpt4o --model-name gpt-4o --model-version 2024-05-13  --model-format OpenAI --sku-name "Standard" --sku-capacity 1
+    silent: false
+  deploy_dalle3:
+    desc: "Deploy DALLE-3"
+    cmds:
+      - az cognitiveservices account deployment create -n MyOpenAIResource -g $RG --deployment-name dall-e-3 --model-name dall-e-3 --model-version 3.0 --model-format OpenAI --sku-name "Standard" --sku-capacity 1
+    silent: false
+  clean_up:
+    desc: "Clean up"
+    cmds:
+      - az cognitiveservices account delete -n MyOpenAIResource -g $RG
+      - az group delete --name $RG --yes
+    silent: false
