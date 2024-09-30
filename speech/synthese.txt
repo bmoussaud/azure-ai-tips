@@ -1,0 +1,16 @@
+**Prompt [Try this prompt in Copilot for Microsoft 365](https://www.microsoft365.com/chat/entity1-d870f6cd-4aa5-4d42-9626-ab690c041429/eyJpZCI6IlZYTmxjbFl4ZkdoMGRIQnpPaTh2YzNWaWMzUnlZWFJsTFdsdWRDNXZabVpwWTJVdVkyOXRMM3hQU1VRNk1XTTJaRGd3WlRNdFpHSmlOUzAwTkRFM0xUbG1ORFF0T0dVeE1tSmtZelU1T1RGaWZHUTVOakV6T1dRekxUWmlOelV0TkdVMU55MDVZMk14TFRFNVpqTmlOVEprTmpWak5Id3lNREkwTFRBNUxUTXdWREV4T2pVMU9qQXpMakU0T1RZeU1EUmEiLCJzY2VuYXJpbyI6InNoYXJlTGlua1ZpYVJpY2hDb3B5IiwicHJvcGVydGllcyI6eyJwcm9tcHRTb3VyY2UiOiJ1c2VyIiwiY2xpY2tUaW1lc3RhbXAiOiIyMDI0LTA5LTMwVDExOjU1OjAyLjg4NloifSwidmVyc2lvbiI6MS4xfQ)**
+out.txt peux tu me faire un résumé de texte ?
+**Response**
+Bien sûr, voici un résumé du texte contenu dans le fichier **[out.txt](https://microsofteur-my.sharepoint.com/personal/bmoussaud_microsoft_com/Documents/Microsoft%20Copilot%20Chat%20Files/out.txt?web=1&EntityRepresentationId=7482308a-2e72-4064-bd20-9e975ab271e1)** :
+
+Le texte raconte une histoire complexe et intrigante. Il commence par une conversation banale qui évolue rapidement vers des événements étranges et surnaturels. Les personnages commencent à avoir des rêves intenses et réalistes, accompagnés de visions lumineuses et de voix de proches décédés. Ces rêves deviennent de plus en plus obsédants, les poussant à des comportements compulsifs et à des quêtes personnelles.
+
+L'un des personnages construit une machine quantique, un autre cherche à améliorer une arme, tandis qu'un autre enquête de manière obsessionnelle sur une erreur dans un formulaire. Ces quêtes les mènent à des endroits reculés et mystérieux, où ils découvrent des portails vers un autre monde.
+
+Dans ce monde, ils rencontrent une figure floue et rassurante qui se présente comme le "cri" de la Matriarche. Cette figure les guide à travers un voyage initiatique, leur révélant des vérités profondes sur l'univers et leur propre existence. Ils apprennent que l'univers a été créé par un architecte, et que des êtres appelés les veneurs se sont rebellés contre lui, causant des dysfonctionnements majeurs.
+
+Les personnages réalisent qu'ils ont un rôle à jouer dans la lutte contre les veneurs et qu'ils doivent protéger la terre. Ils retournent finalement dans leur monde, mais avec une nouvelle compréhension de leur mission et de leur place dans l'univers.
+
+Le texte est riche en symbolisme et en mysticisme, explorant des thèmes de rébellion, de quête de vérité, et de lutte contre des forces obscures.
+
+J'espère que ce résumé vous aide à mieux comprendre le contenu du texte. Si vous avez besoin de plus de détails ou d'une autre aide, n'hésitez pas à demander !

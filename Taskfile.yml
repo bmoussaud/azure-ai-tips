@@ -49,8 +49,8 @@ tasks:
   clean_up:
     desc: "Clean up"
     cmds:
-      - az cognitiveservices account delete -n MyOpenAIResource -g $RG
-      - az cognitiveservices account purge -n MyOpenAIResource -g $RG -l $LOCATION
+      - az cognitiveservices account delete -n $AI_RESOURCE_NAME -g $RG
+      - az cognitiveservices account purge -n $AI_RESOURCE_NAME -g $RG -l $LOCATION
       - az group delete --name $RG --yes
     silent: false
   

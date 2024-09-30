@@ -1,0 +1,65 @@
+version: '3'
+
+env:
+  RG: my_speech_rg
+  LOCATION: eastus
+  AI_RESOURCE_NAME: MySpeechResource
+
+dotenv: ['.env']
+
+tasks:
+  load_image:
+    desc: "Load MS Speech docker image"
+    cmds:
+      - docker pull msftspeech/spx
+    silent: false
+  shell:
+    desc: "help"
+    cmds:
+      - docker run -it --rm msftspeech/spx help
+    silent: false
+  config:
+    cmds:
+      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx config @key --set $SPEECH_SERVICE_API_KEY          
+      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx config @region --set $LOCATION
+    silent: false
+  create_resource_group:
+    desc: "Create a resource group ${RG} in $LOCATION"
+    cmds:
+      - az group create --name $RG --location $LOCATION
+    silent: false
+  deploy_speech_services:
+    desc: "Deploy Speech Services"
+    cmds:
+      - az cognitiveservices account create -n $AI_RESOURCE_NAME -g $RG -l $LOCATION --kind SpeechServices --sku s0 --subscription $AZURE_SUBSCRIPTION_ID 
+    silent: false
+  recognize_speech:
+    desc: "Recognize speech"
+    deps: [config]
+    cmds:
+      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/french-months.wav
+    silent: false
+  recognize_speech2:
+    desc: "Recognize speech"
+    deps: [config]
+    cmds:
+      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.wav
+    silent: false
+  recognize_speech3:
+    desc: "Recognize speech"
+    deps: [config]
+    cmds:
+      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.mp3 --format mp3
+    silent: false
+  enter_interactive_mode:
+    desc: "Enter interactive mode"
+    cmds:
+      - docker run -it --entrypoint=/bin/bash -v  /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data  --rm msftspeech/spx
+    silent: false
+  clean_up:
+    desc: "Clean up"
+    cmds:
+      - az cognitiveservices account delete -n $AI_RESOURCE_NAME -g $RG
+      - az cognitiveservices account purge -n $AI_RESOURCE_NAME -g $RG -l $LOCATION
+      - az group delete --name $RG --yes
+    silent: false
