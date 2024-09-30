@@ -3,6 +3,7 @@ version: '3'
 env:
   RG: my_open_ai_rg
   LOCATION: eastus
+  AI_RESOURCE_NAME: MyOpenAIResource
 
 dotenv: ['.env']
 
@@ -20,27 +21,26 @@ tasks:
   deploy_open_ai:
     desc: "Deploy Open AI"
     cmds:
-      - az cognitiveservices account create -n MyOpenAIResource -g $RG -l $LOCATION --kind OpenAI --sku s0 --subscription $AZURE_SUBSCRIPTION_ID 
+      - az cognitiveservices account create -n $AI_RESOURCE_NAME -g $RG -l $LOCATION --kind OpenAI --sku s0 --subscription $AZURE_SUBSCRIPTION_ID 
     silent: false
   deploy_gtp4o:
     desc: "Deploy GPT4o"
     cmds:
-      - az cognitiveservices account deployment create -n MyOpenAIResource -g $RG --deployment-name gpt4o --model-name gpt-4o --model-version 2024-05-13  --model-format OpenAI --sku-name "Standard" --sku-capacity 1
+      - az cognitiveservices account deployment create -n $AI_RESOURCE_NAME -g $RG --deployment-name gpt4o --model-name gpt-4o --model-version 2024-05-13  --model-format OpenAI --sku-name "Standard" --sku-capacity 1
     silent: false
   deploy_dalle3:
     desc: "Deploy DALLE-3"
     cmds:
-      - az cognitiveservices account deployment create -n MyOpenAIResource -g $RG --deployment-name dall-e-3 --model-name dall-e-3 --model-version 3.0 --model-format OpenAI --sku-name "Standard" --sku-capacity 1
+      - az cognitiveservices account deployment create -n $AI_RESOURCE_NAME -g $RG --deployment-name dall-e-3 --model-name dall-e-3 --model-version 3.0 --model-format OpenAI --sku-name "Standard" --sku-capacity 1
     silent: false
   list_deployments:
     desc: "List deployments"
     cmds:
-      - az cognitiveservices account deployment list -n MyOpenAIResource -g $RG -o table
+      - az cognitiveservices account deployment list -n $AI_RESOURCE_NAME -g $RG -o table
     silent: false
   deploy_all:
     desc: "Deploy all"
     cmds:
-      - task: azure_auth
       - task: create_resource_group
       - task: deploy_open_ai
       - task: deploy_gtp4o
