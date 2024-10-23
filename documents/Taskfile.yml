@@ -18,7 +18,7 @@ tasks:
       - az group create --name $RG --location $LOCATION
     silent: false
   deploy_document_intelligence_services:
-    deps: [create_resource_group]
+    #deps: [create_resource_group]
     desc: "Deploy Speech Services"
     cmds:
       - az deployment group create --resource-group $RG --template-file main.bicep

@@ -1,0 +1,10 @@
+{
+    "configurations": [],
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "programPath",
+            "description": "Path to the Python program"
+        }
+    ]
+}
