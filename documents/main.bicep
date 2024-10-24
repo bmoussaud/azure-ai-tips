@@ -22,7 +22,10 @@ resource docIntelligence 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   }
 }
 
-// Create a storage account
+output cognitiveServicesAccountEndpoint string = docIntelligence.properties.endpoint
+output cognitiveServicesAccountKey string = listKeys(docIntelligence.id, '2023-05-01').key1
+
+// Create a storage account with a public access
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   name: 'bmoussauddocint'
   location: location
@@ -30,16 +33,19 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   sku: {
     name: 'Standard_LRS'
   }
+  properties: {
+    accessTier: 'Hot'
+    supportsHttpsTrafficOnly: true
+    allowBlobPublicAccess: true
+  }
 }
+
+output storageConnectionString string = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${listKeys(storageAccount.id, '2021-04-01').keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
 
 // create a container in the storage account
 resource storageContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-04-01' = {
-  name: '${storageAccount.name}/default/${docIntelligenceName}'
+  name: '${storageAccount.name}/default/myblob'
   properties: {
     publicAccess: 'Container'
   }
 }
-
-output cognitiveServicesAccountId string = docIntelligence.id
-output cognitiveServicesAccountEndpoint string = docIntelligence.properties.endpoint
-output cognitiveServicesAccountKey string = listKeys(docIntelligence.id, '2023-05-01').key1

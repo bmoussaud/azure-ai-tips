@@ -18,14 +18,14 @@ def load_pdf_in_storage_account(file_path):
     # This is a placeholder implementation
     blob_service_client = BlobServiceClient.from_connection_string(os.getenv("AZURE_STORAGE_CONNECTION_STRING"))
     # Create a container
-    container_name = "mydocuments"
+    container_name = "myblob"
     # test if container exists in the blob service client
-    try:
-        container_client = blob_service_client.get_container_client(container_name)
-        container_client.get_container_properties()
-    except Exception as e:
-        print(f"Container {container_name} does not exist. Creating a new one.")
-        blob_service_client.create_container(container_name)
+    #try:
+    #    container_client = blob_service_client.get_container_client(container_name)
+    #    container_client.get_container_properties()
+    #except Exception as e:
+    #    print(f"Container {container_name} does not exist. Creating a new one.")
+    #    blob_service_client.create_container(container_name)
 
 
     # Check if the blob exists
@@ -44,7 +44,8 @@ def load_pdf_in_storage_account(file_path):
     print(f"Public URL: {blob_url}")
     return blob_url
 
-docUrl = load_pdf_in_storage_account("data/formulaire-de-demande.pdf")
+#docUrl = load_pdf_in_storage_account("data/formulaire-de-demande.pdf")
+docUrl = "https://github.com/MicrosoftLearning/mslearn-ai-document-intelligence/blob/main/Labfiles/01-prebuild-models/sample-invoice/sample-invoice.pdf?raw=true"
 
 document_analysis_client = DocumentIntelligenceClient(endpoint=endpoint, 
     credential=AzureKeyCredential(key))

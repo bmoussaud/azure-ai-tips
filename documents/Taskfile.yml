@@ -23,6 +23,7 @@ tasks:
     cmds:
       - az deployment group create --resource-group $RG --template-file main.bicep
     silent: false
+  
   output_values:
     cmds:
       - az deployment group show  --resource-group $RG -n main --query properties.outputs
