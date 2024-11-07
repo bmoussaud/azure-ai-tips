@@ -1,5 +1,5 @@
 from azure.core.credentials import AzureKeyCredential
-from azure.ai.formrecognizer import DocumentAnalysisClient
+from azure.ai.formrecognizer import DocumentAnalysisClient, FormRecognizerClient
 
 import os
 import sys
@@ -20,12 +20,18 @@ print(f"\nConnecting to Forms Recognizer at: {endpoint}")
 print(f"Analyzing invoice at: {fileUri}")
 
 # Create the client
-document_analysis_client = DocumentAnalysisClient(
+document_analysis_client = FormRecognizerClient(
     endpoint=endpoint, credential=AzureKeyCredential(key)
 )
 
+file_path = r"C:\Users\bmoussaud\Workspaces\azure-ai-tips\documents\data\formulaire-de-demande.pdf"
+with open(file_path, "rb") as f:        
+    form_data = f.read()
+
+print(f"Analyzing invoice at: {file_path}") 
+
 # Analyse the invoice
-receipts = document_analysis_client.begin_analyze_document_from_url(model_id=fileModelId, document_url=fileUri, locale=fileLocale).result()
+receipts = document_analysis_client.begin_recognize_invoices(invoice=form_data).result()
 
 # Display invoice information to the user
 print("\nInvoice Information:\n")
