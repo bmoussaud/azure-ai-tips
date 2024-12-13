@@ -23,7 +23,7 @@
             ]
         }
     },
-    //"postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+    "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
     "remoteUser": "vscode",
     "hostRequirements": {
         "memory": "8gb"

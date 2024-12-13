@@ -1,0 +1,75 @@
+version: '3'
+
+env:
+  RG: content_understanding
+  LOCATION: swedencentral
+  AI_RESOURCE_NAME: ai-svc-vsscdy7uosaws
+#dotenv: ['.env']
+
+tasks:
+  azure_auth:
+    desc: "Authenticate to Azure using Azure CLI"
+    cmds:
+      - az login
+    silent: false
+  create_resource_group:
+    desc: "Create a resource group ${RG} in $LOCATION"
+    cmds:
+      - az group create --name $RG --location $LOCATION
+    silent: false
+  deploy_ai_services:
+    #deps: [create_resource_group]
+    desc: "Deploy AI Services"
+    cmds:
+      - az deployment group create --resource-group $RG --template-file main.bicep
+    silent: false
+  
+  output_values:
+    cmds:
+      - az deployment group show  --resource-group $RG -n main --query properties.outputs
+    silent: false
+  
+  gen_dot_env:
+    cmds:
+      - echo "export AI_RESOURCE_NAME=$AI_RESOURCE_NAME" > .env
+      - echo "export AI_RESOURCE_KEY=$(az cognitiveservices account keys list --name $AI_RESOURCE_NAME --resource-group $RG --query key1 -o tsv)" >> .env
+      - echo "export AI_RESOURCE_ENDPOINT=$(az cognitiveservices account show --name $AI_RESOURCE_NAME --resource-group $RG --query properties.endpoint -o tsv)" >> .env
+    silent: false
+  
+ 
+  recognize_speech:
+    desc: "Recognize speech"
+    deps: [config]
+    cmds:
+      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.wav
+    silent: false
+  recognize_speech2:
+    desc: "Recognize speech"
+    deps: [config]
+    cmds:
+      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.mp3
+    silent: false
+  deploy_custom_analyser:
+    desc: "Recognize speech"
+    deps: [config]
+    cmds:
+      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.wav
+    silent: false
+  recognize_speech3:
+    desc: "Recognize speech"
+    deps: [config]
+    cmds:
+      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.mp3 --format mp3
+    silent: false
+  enter_interactive_mode:
+    desc: "Enter interactive mode"
+    cmds:
+      - docker run -it --entrypoint=/bin/bash -v  /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data  --rm msftspeech/spx
+    silent: false
+  clean_up:
+    desc: "Clean up"
+    cmds:
+      - az cognitiveservices account delete -n $AI_RESOURCE_NAME -g $RG
+      - az cognitiveservices account purge -n $AI_RESOURCE_NAME -g $RG -l $LOCATION
+      - az group delete --name $RG --yes
+    silent: false
