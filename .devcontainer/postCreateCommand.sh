@@ -1,5 +1,5 @@
-pip3 install -r .devcontainer/requirements-dev.txt
-pip3 install -e .
+#pip3 install -r .devcontainer/requirements-dev.txt
+#pip3 install -e .
 
 # git config
 #git config --global --add safe.directory .

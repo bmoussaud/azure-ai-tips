@@ -1,5 +1,5 @@
 {
-    "name": "Cobra Cosmos Dev Container",
+    "name": "Azure AI Dev Container",
     "image": "mcr.microsoft.com/vscode/devcontainers/python:3.12",
     "forwardPorts": [
         50505
@@ -23,7 +23,7 @@
             ]
         }
     },
-    "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+    //"postCreateCommand": "./.devcontainer/postCreateCommand.sh",
     "remoteUser": "vscode",
     "hostRequirements": {
         "memory": "8gb"
