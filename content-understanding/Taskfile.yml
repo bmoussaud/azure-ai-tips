@@ -36,6 +36,12 @@ tasks:
       - echo "export AI_RESOURCE_ENDPOINT=$(az cognitiveservices account show --name $AI_RESOURCE_NAME --resource-group $RG --query properties.endpoint -o tsv)" >> .env
     silent: false
   
+  list_analyser:
+    desc: "list available analyser"
+    #deps: [config]
+    cmds:
+      -  ./list_analyzer.sh 
+    silent: false
  
   new_analyser:
     desc: "Deployer a new custom analyser"
@@ -57,35 +63,7 @@ tasks:
       -  ./get_analyze_video.sh my_video_analyzer 33a5dea7-55f2-4787-b732-30c105f9b46b
     silent: false
 
-  recognize_speech:
-    desc: "Recognize speech"
-    deps: [config]
-    cmds:
-      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.wav
-    silent: false
-  recognize_speech2:
-    desc: "Recognize speech"
-    deps: [config]
-    cmds:
-      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.mp3
-    silent: false
-  deploy_custom_analyser:
-    desc: "Recognize speech"
-    deps: [config]
-    cmds:
-      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.wav
-    silent: false
-  recognize_speech3:
-    desc: "Recognize speech"
-    deps: [config]
-    cmds:
-      - docker run -it -v /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data --rm msftspeech/spx recognize --output file /data/output.tsv --language fr-FR  --file /data/FindeNoc.mp3 --format mp3
-    silent: false
-  enter_interactive_mode:
-    desc: "Enter interactive mode"
-    cmds:
-      - docker run -it --entrypoint=/bin/bash -v  /C/Users/bmoussaud/Workspaces/azure-ai-tips/speech/data:/data  --rm msftspeech/spx
-    silent: false
+  
   clean_up:
     desc: "Clean up"
     cmds:
