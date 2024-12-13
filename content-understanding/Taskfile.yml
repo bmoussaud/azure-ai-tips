@@ -1,5 +1,5 @@
 version: '3'
-
+# based on https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/quickstart/use-rest-api?tabs=video
 env:
   RG: content_understanding
   LOCATION: swedencentral
