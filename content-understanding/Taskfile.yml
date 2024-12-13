@@ -4,7 +4,7 @@ env:
   RG: content_understanding
   LOCATION: swedencentral
   AI_RESOURCE_NAME: ai-svc-vsscdy7uosaws
-#dotenv: ['.env']
+dotenv: ['.env']
 
 tasks:
   azure_auth:
@@ -37,6 +37,26 @@ tasks:
     silent: false
   
  
+  new_analyser:
+    desc: "Deployer a new custom analyser"
+    #deps: [config]
+    cmds:
+      -  ./create_analyzer.sh my_video_analyzer ./custom_video_analyser.json 
+    silent: false
+
+  analyze_video:
+    desc: "Analyse a video"
+    #deps: [config]
+    cmds:
+      -  ./analyze_video.sh my_video_analyzer https://github.com/bmoussaud/azure-ai-tips/raw/refs/heads/main/content-understanding/sample_pancakes.mp4.mp4
+    silent: false
+
+  get_analyze_video:
+    desc: "Get The Analyse of a video"
+    cmds:
+      -  ./get_analyze_video.sh my_video_analyzer 33a5dea7-55f2-4787-b732-30c105f9b46b
+    silent: false
+
   recognize_speech:
     desc: "Recognize speech"
     deps: [config]
