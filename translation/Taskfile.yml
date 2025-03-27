@@ -1,0 +1,67 @@
+version: '3'
+
+env:
+  RG: my_translation_rg
+  LOCATION: eastus
+  AI_RESOURCE_NAME: MyDocTranslatorResource
+  AI_ACCOUNT_NAME: transaccbmoussaud23
+  TRANSLATOR_ROLE_NAME: transaccbmoussaud23RoleName
+
+dotenv: ['.env']
+
+tasks:
+  create_resource_group:
+    desc: "Create a resource group ${RG} in $LOCATION"
+    cmds:
+      - az group create --name $RG --location $LOCATION
+    silent: false
+  deploy_translation_services:
+    desc: "Deploy Translator Services"
+    cmds:
+      - az cognitiveservices account create --name $AI_RESOURCE_NAME --custom-domain $AI_RESOURCE_NAME --resource-group $RG --kind TextTranslation --sku S1 --location $LOCATION --yes
+    silent: false
+  deploy_blobs:
+    desc: "Deploy blobs"
+    cmds:
+      - az storage account create --name $AI_ACCOUNT_NAME --resource-group $RG --location $LOCATION --sku Standard_LRS
+      - az storage container create --name input --account-name $AI_ACCOUNT_NAME
+      - az storage container create --name output --account-name $AI_ACCOUNT_NAME
+    silent: false
+  assign_role:
+    desc: "Assign role Storage Blob Data Contributor to the AI_RESOURCE_NAME_ID"
+    vars:
+      USER_ID:
+        sh: az ad signed-in-user show --query id -o tsv
+      SUBSCRIPTION_ID:
+        sh: az account show --query id -o tsv
+      AI_RESOURCE_NAME_ID:
+        sh: az cognitiveservices account show --name $AI_RESOURCE_NAME --resource-group $RG --query id -o tsv
+      AI_STORAGE_ACCOUNT_ID:
+        sh: az storage account show --name $AI_ACCOUNT_NAME --resource-group $RG --query id -o tsv
+    cmds:
+      - az cognitiveservices account identity assign --name $AI_RESOURCE_NAME --resource-group $RG
+      - az role assignment create --assignee {{.USER_ID}} --role "Storage Blob Data Contributor" --scope {{.AI_STORAGE_ACCOUNT_ID}}
+    silent: false
+  env:
+    desc: "Get keys for the Translator Services"
+    vars:
+      AZURE_DOCUMENT_TRANSLATION_KEY:
+        sh: az cognitiveservices account keys list --name $AI_RESOURCE_NAME --resource-group $RG --query key1 -o tsv
+      AZURE_DOCUMENT_TRANSLATION_ENDPOINT:
+        sh: az cognitiveservices account show --name $AI_RESOURCE_NAME --resource-group $RG  --query properties.endpoints.DocumentTranslation -o tsv
+      AZURE_STORAGE_BLOB_ENDPOINT:
+        sh: az storage account show --name $AI_ACCOUNT_NAME --resource-group $RG --query primaryEndpoints.blob -o tsv
+    cmds:
+      - echo "export AZURE_DOCUMENT_TRANSLATION_KEY={{.AZURE_DOCUMENT_TRANSLATION_KEY}}" > .env
+      - echo "export AZURE_DOCUMENT_TRANSLATION_ENDPOINT={{.AZURE_DOCUMENT_TRANSLATION_ENDPOINT}}" >> .env
+      - echo "export AZURE_STORAGE_BLOB_ENDPOINT={{.AZURE_STORAGE_BLOB_ENDPOINT}}" >> .env
+    silent: false
+ 
+ 
+  clean_up:
+    desc: "Clean up"
+    cmds:
+      - az cognitiveservices account delete -n $AI_RESOURCE_NAME -g $RG
+      - az cognitiveservices account purge -n $AI_RESOURCE_NAME -g $RG -l $LOCATION
+      - az group delete --name $RG --yes
+    silent: false
