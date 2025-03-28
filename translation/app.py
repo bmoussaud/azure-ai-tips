@@ -8,7 +8,7 @@ from azure.identity import DefaultAzureCredential
 # Load environment variables from .env file
 load_dotenv()
 # Initialize the Document Translation client
-local_file_path = "SampleChineseAgreement.pdf"
+local_file_path = "mydoc.pdf"
 endpoint = os.environ["AZURE_DOCUMENT_TRANSLATION_ENDPOINT"]
 print(f"Endpoint: {endpoint}")
 key = os.environ["AZURE_DOCUMENT_TRANSLATION_KEY"]
