@@ -55,7 +55,29 @@ Open the file `downloaded_mydoc.pdf`
 Clean up: 
 
 ```bash
-azd down
+$azd down
+Deleting all resources and deployed code on Azure (azd down)
+Local application code is not deleted when running 'azd down'.
+
+  Resource(s) to be deleted:
+
+  Resource Group: rg-ttdev
+    • Storage account: yi2fmucycxxqy
+    • Azure AI Services: dakfqdo5vbzlg
+  
+
+? Total resources to delete: 3, are you sure you want to continue? Yes
+Deleting your resources can take some time.
+
+
+  Warning: The following operation will delete 1 TextTranslation.
+These resources have soft delete enabled allowing them to be recovered for a period or time after deletion. During this period, their names may not be reused. In the future, you can use the argument --purge to skip this confirmation.
+
+? Would you like to permanently delete these resources instead, allowing their names to be reused? Yes
+
+  (✓) Done: Purging Cognitive Account: dakfqdo5vbzlg
+
+SUCCESS: Your application was removed from Azure in 1 minute 38 seconds.
 ```
 
 ## Features
