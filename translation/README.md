@@ -28,14 +28,34 @@ This repository contains an example of using Azure AI Translator to translate te
 
 ## Usage
 
-
-
-### Python Example
-
 Run the translator script:
 ```bash
 azd env get-values > .env
-python app.py
+python app.py mydoc.pdf
+```
+
+Ouput looks like:
+```bash
+Local file path: mydoc.pdf
+Endpoint: https://dakfqdo5vbzlg.cognitiveservices.azure.com/
+Source container SAS URL: https://yi2fmucycxxqy.blob.core.windows.net/input
+Target container SAS URL: https://yi2fmucycxxqy.blob.core.windows.net/output
+Starting translation job (target language is English) ...
+Waiting for translation to complete...
+Document ID: 017bbacd-0000-0000-0000-000000000000
+Status: Status.SUCCEEDED
+Translated URL: https://yi2fmucycxxqy.blob.core.windows.net:443/output/mydoc.pdf
+Downloaded translated file to: downloaded_mydoc.pdf
+Deleted translated file from container: mydoc.pdf
+Deleting input file from container: mydoc.pdf
+```
+
+Open the file `downloaded_mydoc.pdf`
+
+Clean up: 
+
+```bash
+azd down
 ```
 
 ## Features
@@ -47,7 +67,6 @@ python app.py
 ## Resources
 
 - [Azure Translator Documentation](https://learn.microsoft.com/azure/cognitive-services/translator/)
-- [Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 - [Azure SDK for Python](https://github.com/Azure/azure-sdk-for-python)
 
 ## License

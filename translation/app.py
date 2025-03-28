@@ -5,10 +5,16 @@ from dotenv import load_dotenv
 import os
 from azure.storage.blob import BlobServiceClient
 from azure.identity import DefaultAzureCredential
+import sys
 # Load environment variables from .env file
 load_dotenv()
 # Initialize the Document Translation client
-local_file_path = "mydoc.pdf"
+if len(sys.argv) < 2:
+    print("Usage: python app.py <local_file_path>")
+    sys.exit(1)
+
+local_file_path = sys.argv[1]
+print(f"Local file path: {local_file_path}")
 endpoint = os.environ["AZURE_DOCUMENT_TRANSLATION_ENDPOINT"]
 print(f"Endpoint: {endpoint}")
 key = os.environ["AZURE_DOCUMENT_TRANSLATION_KEY"]
@@ -30,9 +36,12 @@ target_container_sas_url = target_container.url
 print(f"Source container SAS URL: {source_container_sas_url}")
 print(f"Target container SAS URL: {target_container_sas_url}")
 # Create a translation job
+print("Starting translation job (target language is English) ...")
 poller = translation_client.begin_translation(source_container_sas_url, target_container_sas_url, "en")
 
+
 # Wait for the translation to complete
+print("Waiting for translation to complete...")
 result = poller.result()
 # Print the translation result
 for document in result:
@@ -53,3 +62,8 @@ for document in result:
         print(f"Deleted translated file from container: {translated_blob_name}")
     else:
         print(f"Error: {document.error.message if document.error else 'Unknown error'}")
+    
+# Delete the input file from the source container
+print(f"Deleting input file from container: {local_file_path}")
+blob_client = source_container.get_blob_client(local_file_path)
+blob_client.delete_blob()
