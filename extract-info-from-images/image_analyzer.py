@@ -219,6 +219,11 @@ def cli():
     
     Extract detailed information from images using Azure OpenAI's GPT-4 Vision model.
     
+    Commands:
+    - analyze: Analyze a single image
+    - analyze-folder: Analyze all images in a folder
+    - setup: Check configuration
+    
     Setup:
     1. Set environment variables in .env file:
        - AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
@@ -228,6 +233,7 @@ def cli():
     2. Install dependencies: pip install -r requirements.txt
     
     3. Run: python image_analyzer.py analyze path/to/image.jpg
+           python image_analyzer.py analyze-folder path/to/images/
     """
     pass
 
@@ -268,7 +274,182 @@ def setup():
         except Exception as e:
             click.echo(f"\n✗ Failed to initialize client: {e}")
 
+@cli.command()
+@click.argument('folder_path', type=click.Path(exists=True, file_okay=False, dir_okay=True))
+@click.option('--prompt', '-p', help='Custom prompt for image analysis')
+@click.option('--max-tokens', '-t', default=2000, help='Maximum tokens for response per image')
+@click.option('--output', '-o', type=click.Path(), help='Output file for results (JSON)')
+@click.option('--verbose', '-v', is_flag=True, help='Verbose output')
+@click.option('--extensions', '-e', default='jpg,jpeg,png,gif,bmp,tiff,webp', 
+              help='Comma-separated list of image extensions to process (default: jpg,jpeg,png,gif,bmp,tiff,webp)')
+@click.option('--parallel', '-j', default=1, type=int, help='Number of parallel processing threads (default: 1)')
+def analyze_folder(folder_path: str, prompt: Optional[str], max_tokens: int, output: Optional[str], 
+                  verbose: bool, extensions: str, parallel: int):
+    """
+    Analyze all images in a folder using Azure OpenAI GPT-4 Vision.
+    
+    FOLDER_PATH: Path to the folder containing images to analyze
+    """
+    import glob
+    import threading
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    from datetime import datetime
+    
+    try:
+        if verbose:
+            click.echo(f"Scanning folder: {folder_path}")
+        
+        # Parse extensions
+        ext_list = [ext.strip().lower() for ext in extensions.split(',')]
+        
+        # Find all image files
+        image_files = []
+        for ext in ext_list:
+            pattern = os.path.join(folder_path, f"**/*.{ext}")
+            image_files.extend(glob.glob(pattern, recursive=True))
+            # Also check uppercase extensions
+            pattern = os.path.join(folder_path, f"**/*.{ext.upper()}")
+            image_files.extend(glob.glob(pattern, recursive=True))
+        
+        # Remove duplicates and sort
+        image_files = sorted(list(set(image_files)))
+        
+        if not image_files:
+            click.echo(f"No image files found in {folder_path} with extensions: {extensions}")
+            return
+        
+        if verbose:
+            click.echo(f"Found {len(image_files)} image files")
+            for img in image_files:
+                click.echo(f"  - {os.path.relpath(img, folder_path)}")
+        
+        # Initialize analyzer
+        analyzer = ImageAnalyzer()
+        
+        # Results storage
+        results = {
+            "folder_path": folder_path,
+            "analyzed_at": datetime.now().isoformat(),
+            "total_images": len(image_files),
+            "successful_analyses": 0,
+            "failed_analyses": 0,
+            "prompt_used": prompt or "Default analysis prompt",
+            "images": []
+        }
+        
+        def analyze_single_image(img_path):
+            """Analyze a single image and return result"""
+            try:
+                if verbose:
+                    click.echo(f"Processing: {os.path.relpath(img_path, folder_path)}")
+                
+                result = analyzer.analyze_image(img_path, prompt, max_tokens)
+                result["relative_path"] = os.path.relpath(img_path, folder_path)
+                return result
+            except Exception as e:
+                return {
+                    "success": False,
+                    "error": str(e),
+                    "image_path": img_path,
+                    "relative_path": os.path.relpath(img_path, folder_path)
+                }
+        
+        # Process images
+        if parallel > 1:
+            # Parallel processing
+            if verbose:
+                click.echo(f"Processing images with {parallel} threads...")
+            
+            with ThreadPoolExecutor(max_workers=parallel) as executor:
+                # Submit all jobs
+                future_to_image = {executor.submit(analyze_single_image, img): img for img in image_files}
+                
+                # Collect results as they complete
+                with click.progressbar(as_completed(future_to_image), length=len(image_files),
+                                     label="Analyzing images") as bar:
+                    for future in bar:
+                        result = future.result()
+                        results["images"].append(result)
+                        if result["success"]:
+                            results["successful_analyses"] += 1
+                        else:
+                            results["failed_analyses"] += 1
+        else:
+            # Sequential processing
+            with click.progressbar(image_files, label="Analyzing images") as bar:
+                for img_path in bar:
+                    result = analyze_single_image(img_path)
+                    results["images"].append(result)
+                    if result["success"]:
+                        results["successful_analyses"] += 1
+                    else:
+                        results["failed_analyses"] += 1
+        
+        # Sort results by relative path for consistent output
+        results["images"].sort(key=lambda x: x.get("relative_path", ""))
+        
+        # Calculate summary statistics
+        total_tokens = sum(r.get("usage", {}).get("total_tokens", 0) for r in results["images"] if r["success"])
+        results["total_tokens_used"] = total_tokens
+        
+        # Display summary
+        click.echo("\n" + "="*60)
+        click.echo("FOLDER ANALYSIS SUMMARY")
+        click.echo("="*60)
+        click.echo(f"Folder: {folder_path}")
+        click.echo(f"Total images found: {results['total_images']}")
+        click.echo(f"Successfully analyzed: {results['successful_analyses']}")
+        click.echo(f"Failed analyses: {results['failed_analyses']}")
+        click.echo(f"Total tokens used: {total_tokens}")
+        click.echo("="*60)
+        
+        # Display individual results if verbose or small number of images
+        if verbose or len(image_files) <= 5:
+            for result in results["images"]:
+                #
+                # click.echo(f"\n--- {result['relative_path']} ---")
+                click.echo(f"\n--------------")
+                if result["success"]:
+                    click.echo(result["analysis"])
+                    #if verbose:
+                    #    usage = result.get("usage", {})
+                    #    click.echo(f"[Tokens: {usage.get('total_tokens', 'N/A')}]")
+                else:
+                    click.echo(f"ERROR: {result['error']}")
+        elif results["successful_analyses"] > 0:
+            click.echo(f"\nUse --verbose flag to see individual analysis results, or check the output file.")
+        
+        # Show failed images if any
+        if results["failed_analyses"] > 0:
+            click.echo(f"\nFailed to analyze {results['failed_analyses']} images:")
+            for result in results["images"]:
+                if not result["success"]:
+                    click.echo(f"  ✗ {result['relative_path']}: {result['error']}")
+        
+        # Save to output file
+        if output:
+            with open(output, 'w', encoding='utf-8') as f:
+                json.dump(results, f, indent=2, ensure_ascii=False)
+            click.echo(f"\nDetailed results saved to: {output}")
+        else:
+            # Default output file
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            default_output = f"image_analysis_{timestamp}.json"
+            with open(default_output, 'w', encoding='utf-8') as f:
+                json.dump(results, f, indent=2, ensure_ascii=False)
+            click.echo(f"\nDetailed results saved to: {default_output}")
+
+        # dump all the analysis to the output file
+        #if verbose:
+        #    click.echo("\nFull analysis results:")
+        #    click.echo(json.dumps(results, indent=2, ensure_ascii=False))
+            
+    except Exception as e:
+        click.echo(f"Unexpected error: {e}", err=True)
+        sys.exit(1)
+
 cli.add_command(analyze)
+cli.add_command(analyze_folder)
 
 if __name__ == '__main__':
     cli()

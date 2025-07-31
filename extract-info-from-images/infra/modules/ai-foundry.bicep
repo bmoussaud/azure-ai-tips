@@ -56,5 +56,3 @@ output aiFoundryLocation string = aiFoundry.location
 output aiFoundryInferenceEndpoint string = '${aiFoundry.properties.endpoints['Azure AI Model Inference API']}models'
 output defaultModelDeploymentName string = modelDeploymentsParameters[0].name
 output aiFoundryInferenceKey string = listKeys(aiFoundry.id, '2025-04-01-preview').key1
-
-output AZURE_OPENAI_API_KEY string = modelDeployments[0].properties.key

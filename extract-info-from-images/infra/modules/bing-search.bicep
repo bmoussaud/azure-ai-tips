@@ -15,31 +15,6 @@ resource bingCustomSearchConfiguration 'Microsoft.Bing/accounts/customSearchConf
   parent: bingSearchService
   name: 'defaultConfiguration'
   properties: {
-    allowedDomains: [
-      {
-        domain: 'www.setlist.fm'
-        //includeSubPages: 'true'
-        //boostLevel: 'Default'
-      }
-      {
-        domain: 'www.infoconcert.com'
-        //boostLevel: 'SuperBoost'
-        //includeSubpages: true (value cannot be true, only false or not set)
-      }
-      {
-        domain: 'www.fnacspectacles.com'
-        //includeSubPages: false
-      }
-      {
-        domain: 'www.concertandco.com'
-        //boostLevel: 'SuperBoost'
-        //includeSubpages: true
-      }
-      {
-        domain: 'www.spotify.com'
-        includeSubPages: false
-      }
-    ]
     blockedDomains: [
       {
         domain: 'www.youtube.com'

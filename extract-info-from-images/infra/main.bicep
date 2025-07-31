@@ -105,8 +105,3 @@ module storageAccountRoleAssignments 'modules/storage-account-role-assignments.b
     resourceId: aiFoundryProject.outputs.projectId
   }
 }
-
-output AZURE_OPENAI_ENDPOINT string = aiFoundry.outputs.endpoint
-output AZURE_OPENAI_API_KEY string = aiFoundry.outputs.apiKey
-output AZURE_OPENAI_DEPLOYMENT_NAME string = aiFoundry.outputs.deploymentName
-output AZURE_OPENAI_API_VERSION string = aiFoundry.outputs.apiVersion
