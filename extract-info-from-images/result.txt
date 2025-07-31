@@ -1,0 +1,207 @@
+--------------
+Location: Shibuya 109
+
+Tags: Centre commercial, Shopping, Centres commerciaux
+
+--------------
+Location: MEGA Don Quijote
+
+Tags:
+- Magasin discount
+- Magasin d'articles de maison asiatiques
+- Magasin de produits de beauté
+- Épicerie
+- Magasin de nouveautés
+- Magasin d'articles orientaux
+
+--------------
+Location: Sanrio Gift Gate Asakusa
+
+Tags: Magasin, Boutique de cadeaux, Magasin de jouets
+
+--------------
+Location: Shinsaibashi-Suji Shopping Street
+
+Tags: Zone d'activités, Marché, Attraction touristique
+
+--------------
+Location: Imperial Palace East National Gardens
+
+Tags: Réserve nationale, Activités de plein air
+
+--------------
+Location: Onitsuka Tiger Shibuya
+
+Tags:
+- Magasin discount
+- Magasin d'articles de maison asiatiques
+- Magasin de produits de beauté
+- Épicerie
+- Magasin de nouveautés
+- Magasin d'articles orientaux
+- Magasin de chaussures
+- Magasin de vêtements
+- Boutique d'accessoires de mode
+
+--------------
+Location: Wagyu IDATEN
+
+Tags:
+- Restaurant de viande
+- Restaurant servant du gyudon
+- Restaurant de viande grillée (yakiniku)
+
+--------------
+Location: Nishiki Market
+
+Tags: Marché, Sites et monuments
+
+--------------
+Location and tags extracted from the image:
+
+1. Location: Nintendo KYOTO
+   Tags: Magasin d'articles de loisirs
+
+2. Location: Kamo River
+   Tags: Cours d'eau, Nature et Parcs, Corps d'eau
+
+3. Location: Tōfuku-ji Temple
+   Tags: Temple bouddhiste
+
+--------------
+Location:
+- Donguri Kyowakoku (Ghibli Store)
+- Komachi Street
+
+Tags for Donguri Kyowakoku (Ghibli Store):
+- Magasin de souvenirs
+- Épicerie
+- Magasin d'ameublement et de décoration
+- Magasin de jouets
+
+Tag for Komachi Street:
+- Restaurant asiatique
+
+--------------
+Location: Kiyomizu-dera
+
+Tags: Temple bouddhiste, Sites et monuments
+
+--------------
+Location: Uji
+
+Tags: 
+- Musées
+- Musées d'Histoire
+
+--------------
+Location: Adashino Nenbutsuji Temple
+
+Tags: 
+- Temple bouddhiste
+- Sites et monuments
+- Sites sacrés et religieux
+
+--------------
+Location: 
+〒604-8117 Kyoto, Nakagyo Ward, Horinouecho, 398 HANDS
+
+Tags:
+- Construction
+- Restaurant servant du tempura donburi
+- Restaurant de tempura (Japon)
+- Service de location de costumes
+- Salon de coiffure
+- Magasin de kimonos
+
+--------------
+Location: Rental Kimono Okamoto Yasaka Shrine
+
+Tags:
+- Service de location de costumes
+- Salon de coiffure
+- Magasin de kimonos
+
+--------------
+Location:
+- MUJI - Ginza Flagship Store
+- UNIQLO
+- Ginza Loft
+
+Tags:
+- MUJI - Ginza Flagship Store: Bazar, Magasin de sacs
+- UNIQLO: Magasin de vêtements, Fleuriste
+- Ginza Loft: Épicerie, Magasin de cosmétiques, Boutique de santé et beauté, Magasin d'ameublement et de décoration, Magasin de nouveautés
+
+--------------
+Location: Sanrio Gift Gate
+
+Tags: Magasin, Boutique de cadeaux, Magasin de jouets
+
+--------------
+Location: Hokoku-ji
+
+Tags: 
+- Temple bouddhiste
+- Lieu de culte
+- Attraction touristique
+
+--------------
+Location:
+- Little Trip to Heaven Kyoto
+- Adidas Brand Core Store Ginza
+
+Tags:
+- Magasin de vêtements vintage
+- Boutique d'accessoires de mode
+- Magasin d'articles de sports
+- Magasin de vêtements
+
+--------------
+Location: PowderPink パウダーピンク
+
+Tags:
+- Bazar
+- Magasin de poupées
+- Boutique d'accessoires de mode
+- Magasin d'ameublement et de décoration
+- Magasin de miniatures
+- Magasin de nouveautés
+- Magasin de vêtements pour femmes
+
+--------------
+Location: Kappabashi-dōri
+
+Tags: 
+- Zone d'activités
+- Marché
+- Attraction touristique
+
+--------------
+Location: Daiso Shibuya Center Street Store
+
+Tags:
+- Magasin de vêtements
+- Magasin "tout à un euro"
+- Magasin de batteries
+- Magasin d'accessoires pour téléphones mobiles
+- Magasin de matériel de reprographie
+- Magasin de cosmétiques
+- Magasin de bricolage
+
+--------------
+Location: Latte Pocket
+
+Tags: Café
+
+--------------
+Location and tags extracted from the image:
+
+1. Location: Shibuya Parco
+   Tags: Centre commercial, Shopping, Centres commerciaux
+
+2. Location: RAGEBLUE 渋谷
+   Tags: Magasin de vêtements
+
+3. Location: Base Yard Tokyo
+   Tags: Centre commercial, Librairie, Épicerie
