@@ -202,7 +202,8 @@ class FoundryImageAgent:
                     "- Bullet points for easy reading\n"
                     "- External links to relevant websites\n"
                     "- Proper citations for your sources\n\n"
-                    "Here is the image to analyze:"
+                    " Output in French language"
+                    "Here is the locations to analyze:" + custom_prompt
                 )
             
             # Add image to the message
@@ -219,18 +220,19 @@ class FoundryImageAgent:
                 }
             ]
 
+            
             self.agents_client.messages.create(
                     thread_id=self.thread.id,
                     role="user",
-                    content="Give me information about 1. Location: Shibuya Parco, Tags: Centre commercial, Shopping, Centres commerciaux"
+                    content="Give information about each location:"+ prompt
             )
             
             
-            """ message = self.agents_client.messages.create(
+            self.agents_client.messages.create(
                 thread_id=self.thread.id,
                 role="user",
                 content=message_content
-            ) """
+            )
             
             # Create and run the analysis
             logger.info(f"Starting analysis for image: {image_path}")   
@@ -286,7 +288,7 @@ class FoundryImageAgent:
                     ) """
                     
                      
-                    logger.info(f"Annotation: {urls}")
+                    #logger.info(f"Annotation: {urls}")
                     return {
                         "success": True,
                         "analysis": response_content,

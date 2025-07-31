@@ -24,6 +24,9 @@ except ImportError as e:
 
 # Load environment variables
 load_dotenv()
+from foundry_image_agent import FoundryImageAgent
+
+
 
 class ImageAnalyzer:
     """Azure OpenAI GPT-4 Vision image analyzer"""
@@ -325,6 +328,9 @@ def analyze_folder(folder_path: str, prompt: Optional[str], max_tokens: int, out
         
         # Initialize analyzer
         analyzer = ImageAnalyzer()
+        agent_client = FoundryImageAgent()
+        agent_client.create_agent()
+        agent_client.create_thread()
         
         # Results storage
         results = {
@@ -345,6 +351,10 @@ def analyze_folder(folder_path: str, prompt: Optional[str], max_tokens: int, out
                 
                 result = analyzer.analyze_image(img_path, prompt, max_tokens)
                 result["relative_path"] = os.path.relpath(img_path, folder_path)
+                result["analysis_with_research"] = agent_client.analyze_image_with_research(
+                    img_path,
+                    custom_prompt=result["analysis"]
+                )
                 return result
             except Exception as e:
                 return {
