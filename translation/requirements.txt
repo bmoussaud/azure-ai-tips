@@ -1,3 +1,5 @@
 python-dotenv
 azure-ai-translation-document
+azure-ai-translation-text==1.0.1
 azure-identity
+azure-storage-blob

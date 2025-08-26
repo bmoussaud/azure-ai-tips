@@ -92,3 +92,4 @@ output AZURE_DOCUMENT_TRANSLATION_KEY string = listKeys(cognitiveService.id, '20
 output AZURE_DOCUMENT_TRANSLATION_ENDPOINT_ALL object = cognitiveService.properties.endpoints
 output AZURE_DOCUMENT_TRANSLATION_ENDPOINT string = cognitiveService.properties.endpoints['DocumentTranslation']
 output AZURE_STORAGE_BLOB_ENDPOINT string = storageAccount.properties.primaryEndpoints.blob
+output TRANSLATOR_REGION string = location

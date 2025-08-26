@@ -18,6 +18,8 @@ This repository contains an example of using Azure AI Translator to translate te
 
 2. Install dependencies:
     ```bash
+    python -m venv labenv
+    . labenv/bin/activate
     pip install -r requirements.txt
     ```
 
@@ -32,6 +34,7 @@ Run the translator script:
 ```bash
 azd env get-values > .env
 python app.py mydoc.pdf
+python translate.py
 ```
 
 Ouput looks like:
