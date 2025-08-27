@@ -1,0 +1,1 @@
+https://microsoftlearning.github.io/mslearn-ai-language/Instructions/Labs/07-speech.html
