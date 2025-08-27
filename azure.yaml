@@ -1,14 +1,15 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
-name: ai-foundry-infrastructure
+name: azure-ai-tips
 metadata:
-  template: ai-foundry-infrastructure@0.0.1-beta
+  template: azure-ai-tips
 
-services: {}
+services:
+  app:
+    project: ./app
+    language: python
+    host: appservice
 
 infra:
   provider: bicep
-  path: ai-foundry-infrastructure
-
-pipeline:
-  provider: github
+  path: ./speech/infra
