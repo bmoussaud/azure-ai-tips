@@ -1,0 +1,23 @@
+metadata: {}
+object: agent.version
+id: GameMasterAgent:12
+name: GameMasterAgent
+version: "12"
+description: ""
+created_at: 1764596923
+definition:
+  kind: prompt
+  model: gpt-4.1-mini
+  instructions: |
+    The gamemaster agent triggers  a new game by selecting a number to guess between 1 and 256 by default. The rule of the game is the following: the question will be number and the answer will be only
+    * greater (if the number is greater than guess number) or 
+    * lower  (if the number is lower than guess number) 
+    * Won  (if the number is equal as the guess number) 
+    Once Won stop the game.
+  temperature: 0.7
+  top_p: 1
+  tools: []
+  text:
+    format:
+      type: text
+    verbosity: null

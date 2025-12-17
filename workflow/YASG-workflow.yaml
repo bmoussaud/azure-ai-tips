@@ -1,0 +1,54 @@
+kind: workflow
+trigger:
+  kind: OnConversationStart
+  id: trigger_wf
+  actions:
+    - kind: SetVariable
+      id: set_variable_input_task
+      variable: Local.LatestMessage
+      value: =UserMessage(System.LastMessageText)
+    - kind: InvokeAzureAgent
+      id: action-1764596859335
+      conversationId: =System.ConversationId
+      agent:
+        name: GameMasterAgent
+      input:
+        messages: =Local.LatestMessage
+      output:
+        autoSend: true
+        messages: Local.GMAnswer
+    - kind: InvokeAzureAgent
+      id: action-1764596995464
+      conversationId: =System.ConversationId
+      agent:
+        name: PlayerAgent
+      input:
+        messages: =Local.GMAnswer
+      output:
+        autoSend: true
+        messages: Local.LatestMessage
+    - kind: SetVariable
+      id: set_variable_turncount
+      variable: Local.TurnCount
+      value: =Local.TurnCount + 1
+    - kind: ConditionGroup
+      id: completion_check
+      conditions:
+        - condition: =!IsBlank(Find("WON", Upper(Last(Local.GMAnswer).Text)))
+          id: check_done
+          actions:
+            - kind: EndConversation
+              id: end_workflow
+        - condition: =Local.TurnCount >=20
+          id: check_turn_count_exceeded
+          actions:
+            - kind: SendActivity
+              id: send_activity_tired
+              activity: Too Many Attempts
+      elseActions:
+        - kind: GotoAction
+          id: goto_student_agent
+          actionId: action-1764596859335
+id: ""
+name: YASG
+description: ""

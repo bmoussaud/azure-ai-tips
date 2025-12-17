@@ -1,0 +1,20 @@
+metadata:
+  description: ""
+  modified_at: "1764596574"
+object: agent.version
+id: PlayerAgent:8
+name: PlayerAgent
+version: "8"
+description: ""
+created_at: 1764596574
+definition:
+  kind: prompt
+  model: gpt-4.1-mini
+  instructions: You are a player that tries to guess a number between 0 and 256. each round the player provide a number and based on the previous answer (lower, greater, equal). If the answer from the gamemaster states you have found the correct result, say Won
+  temperature: 0.7
+  top_p: 1
+  tools: []
+  text:
+    format:
+      type: text
+    verbosity: null
